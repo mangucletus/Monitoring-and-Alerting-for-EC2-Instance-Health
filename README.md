@@ -8,7 +8,6 @@ This project demonstrates how to configure **Amazon CloudWatch** and **Amazon SN
 
 ---
 
-
 ## Prerequisites
 
 - AWS Account with appropriate permissions
@@ -16,20 +15,20 @@ This project demonstrates how to configure **Amazon CloudWatch** and **Amazon SN
 - Terraform installed (v0.12 or later)
 - Git (optional, for cloning the repository)
 
-
 ## Project Structure
 
+```
 Monitoring-and-Alerting-for-EC2-Instance-Health/
-                                    ├── main.tf                 # Terraform configuration
-                                    ├── README.md               # Documentation
-                                    ├── .gitignore              # Ignore Terraform files & secrets
-                                    └── images/                 # Architecture diagram & screenshots
-                                        ├── architecture.png
-                                        ├── terraform-init.png
-                                        ├── terraform-plan.png
-                                        ├── terraform-apply.png
-                                        ├── terraform-destroy.png
-
+├── main.tf                 # Terraform configuration
+├── README.md               # Documentation
+├── .gitignore              # Ignore Terraform files & secrets
+└── images/                 # Architecture diagram & screenshots
+    ├── architecture.png
+    ├── terraform-init.png
+    ├── terraform-plan.png
+    ├── terraform-apply.png
+    └── terraform-destroy.png
+```
 
 ## Quick Start
 
@@ -40,11 +39,11 @@ git clone https://github.com/mangucletus/Monitoring-and-Alerting-for-EC2-Instanc
 cd Monitoring-and-Alerting-for-EC2-Instance-Health
 ```
 
-Or create a new directory and add the `main.tf` file manually.
+Or create a new directory and add the main.tf file manually.
 
 ### 2. Update Your Email Address
 
-Edit the `main.tf` file and update the email address in the locals block:
+Edit the main.tf file and update the email address in the locals block:
 
 ```hcl
 locals {
@@ -73,7 +72,7 @@ terraform plan
 terraform apply
 ```
 
-Type `yes` when prompted to confirm.
+Type yes when prompted to confirm.
 
 ### 6. Confirm the SNS Subscription
 
@@ -91,7 +90,7 @@ To delete all resources and avoid unnecessary charges:
 terraform destroy
 ```
 
-Type `yes` when prompted.
+Type yes when prompted.
 
 ## What This Project Creates
 
@@ -101,27 +100,24 @@ Type `yes` when prompted.
 - **CloudWatch Alarm** that monitors CPU utilization
 - **SNS Topic** with email subscription for alerts
 
-
 ## Architecture Flow Diagram
 
-```text
-     +-------------+         +----------------------+         +-------------------------+
-     |  EC2        |  -----> | CloudWatch Alarm     | ----->  | SNS Topic               |
-     | Instance    |         | (CPU > 60% for 6 min) |         | (group7-sns-topic)      |
-     +-------------+         +----------------------+         +-------------------------+
-                                                                    |
-                                                                    v
-                                                           mangucletus@gmail.com
-                                                           (Email Notification)
-
+```
+ +-------------+         +----------------------+         +-------------------------+
+ |  EC2        |  -----> | CloudWatch Alarm     | ----->  | SNS Topic               |
+ | Instance    |         | (CPU > 60% for 6 min) |         | (group7-sns-topic)      |
+ +-------------+         +----------------------+         +-------------------------+
+                                                                |
+                                                                v
+                                                       mangucletus@gmail.com
+                                                       (Email Notification)
+```
 
 ---
 
-
-##  Actual Architecture Diagram
+## Actual Architecture Diagram
 
 ![Architecture](images/architecture-diagram.png)
-
 
 ## 🔧 Technologies Used
 
@@ -134,13 +130,11 @@ Type `yes` when prompted.
 
 ---
 
-
 ## Understanding the Components
 
 ### EC2 Instance
 
 An Amazon Linux 2 t2.micro instance that runs a stress test every 5 minutes to simulate high CPU usage:
-
 ```hcl
 resource "aws_instance" "group7_instance" {
   ami                    = "ami-0953476d60561c955"
@@ -159,7 +153,6 @@ resource "aws_instance" "group7_instance" {
 ### CloudWatch Alarm
 
 Monitors the EC2 instance's CPU utilization and triggers when it exceeds 60% for 6 minutes:
-
 ```hcl
 resource "aws_cloudwatch_metric_alarm" "group7_cpu_alarm" {
   alarm_name          = "${local.group_name}-cpu-utilization-alarm"
@@ -177,7 +170,6 @@ resource "aws_cloudwatch_metric_alarm" "group7_cpu_alarm" {
 ### SNS Topic and Subscription
 
 Creates an SNS topic and subscribes your email to receive notifications:
-
 ```hcl
 resource "aws_sns_topic" "group7_sns_topic" {
   name = "${local.group_name}-cpu-alarm-topic"
@@ -216,8 +208,6 @@ You can extend this project by:
 3. Adding automated remediation with Lambda functions
 4. Integrating with other notification systems like Slack
 
-
-
 ## 👨‍💻 Author
 
 - **Group**: `group7`
@@ -225,8 +215,6 @@ You can extend this project by:
 - **Region**: `us-east-1`
 
 ---
-
-
 
 ## Resources
 
